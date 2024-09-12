@@ -1,0 +1,87 @@
+﻿@using GanttChart.Models.Enums;
+@using GanttChart.Models;
+@using GanttChart.Services;
+@using GanttChart.UI;
+
+        @switch (TimePeriod)
+        {
+            case TimePeriod.Day:
+                <GanttChart.UI.Headings.Day Reference=Reference />
+                <ChartLines ColumnCount="24" HighlightedColumn="DateTime.Now.Date == Reference.Date ? DateTime.Now.Hour + 1 : 0" />
+                break;
+
+            case TimePeriod.FiveDayWeek:
+                <GanttChart.UI.Headings.WeekFiveDay Reference=ChartStart />
+                <ChartLines ColumnCount="5" HighlightedColumn="DateTime.Now.Date == Reference.Date ? (int)DateTime.Now.DayOfWeek : 0" />
+                break;
+
+            case TimePeriod.SevenDayWeek:
+                <GanttChart.UI.Headings.WeekSevenDay Reference=ChartStart />
+                <ChartLines ColumnCount="7" HighlightedColumn="DateTime.Now.Date == Reference.Date ? (int)DateTime.Now.DayOfWeek : 0" />
+                break;
+
+            case TimePeriod.Month:
+                <GanttChart.UI.Headings.Month Reference=ChartStart />
+                <ChartLines ColumnCount="_daysInMonth" HighlightedColumn="DateTime.Now.Date == Reference.Date ? DateTime.Now.Day : 0" />
+                break;
+
+            default:
+                <GanttChart.UI.Headings.Day Reference=Reference />
+                <ChartLines ColumnCount="24" HighlightedColumn="DateTime.Now.Date == Reference.Date ? DateTime.Now.Hour : 0" />
+                break;
+        }
+        @foreach (var row in Rows)
+        {
+            <ChartRow 
+                ChartStart=ChartStart 
+                ChartEnd=ChartEnd 
+                TimePeriod="InternalTimePeriod" 
+                TimeInterval="TimeInterval" 
+                Row="row" 
+                Settings="Settings"
+                BarClickEventHandler="BarClickEventHandler"
+                BarHoverOnEventHandler="BarHoverOnEventHandler"
+                BarHoverOffEventHandler="BarHoverOffEventHandler" />
+        }
+
+
+
+
+@code
+{
+    [Parameter]
+    public TimePeriod TimePeriod { get; set; } = TimePeriod.SevenDayWeek;
+
+    [Parameter]
+    public TimePeriodInternal InternalTimePeriod { get; set; } = TimePeriodInternal.SevenDayWeek;
+
+    [Parameter]
+    public TimeInterval TimeInterval { get; set; } = TimeInterval.Minute; 
+
+    [Parameter]
+    public DateTime ChartStart { get; set; }
+
+    [Parameter]
+    public DateTime ChartEnd { get; set; }
+
+    [Parameter]
+    public DateTime Reference { get; set; } = DateTime.Today;
+
+    [Parameter]
+    public IEnumerable<Row> Rows { get; set; } = new List<Row>();
+    
+    [Parameter]
+    public Settings Settings { get; set; } = new();
+
+    [Parameter]
+    public EventCallback<Bar> BarClickEventHandler { get; set; }
+
+    [Parameter]
+    public EventCallback<Bar> BarHoverOnEventHandler { get; set; }
+
+    [Parameter]
+    public EventCallback BarHoverOffEventHandler { get; set; }
+
+    private int _daysInMonth => DateTime.DaysInMonth(Reference.Year, Reference.Month);
+
+}

@@ -1,0 +1,93 @@
+﻿@using GanttChart.Models
+@using GanttChart.Models.Enums
+@using GanttChart.Services
+@using GanttChart.UI
+
+<div class="wrapper">
+    <div class="gantt">
+
+        <ChartMainHeading ChartStart="_chartStart" TimePeriod="TimePeriod" />
+
+        @if (Settings.ChartIsScrollable)
+        {
+        <ChartScrollable Reference="Reference"
+        ChartStart="_chartStart"
+        ChartEnd="_chartEnd"
+        TimeInterval="TimeInterval"
+        TimePeriod="TimePeriod"
+        InternalTimePeriod="_internalTimePeriod"
+        Rows="Rows"
+        Settings="Settings"
+        BarClickEventHandler="BarClickEventHandler"
+        BarHoverOnEventHandler="BarHoverOnEventHandler"
+        BarHoverOffEventHandler="BarHoverOffEventHandler" />
+
+        }
+        else
+        {
+        <ChartStatic Reference="Reference"
+        ChartStart="_chartStart"
+        ChartEnd="_chartEnd"
+        TimeInterval="TimeInterval"
+        TimePeriod="TimePeriod"
+        InternalTimePeriod="_internalTimePeriod"
+        Rows="Rows"
+        Settings="Settings"
+        BarClickEventHandler="BarClickEventHandler"
+        BarHoverOnEventHandler="BarHoverOnEventHandler"
+        BarHoverOffEventHandler="BarHoverOffEventHandler" />
+        }
+
+
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public TimePeriod TimePeriod { get; set; } = TimePeriod.SevenDayWeek;
+
+    [Parameter]
+    public TimeInterval TimeInterval { get; set; } = TimeInterval.Minute;
+
+    [Parameter]
+    public DateTime Reference { get; set; } = DateTime.Today;
+
+    [Parameter]
+    public IEnumerable<Row> Rows { get; set; } = new List<Row>();
+
+
+    [Parameter]
+    public Settings Settings { get; set; } = new();
+
+    [Parameter]
+    public EventCallback<Bar> BarClickEventHandler { get; set; }
+
+    [Parameter]
+    public EventCallback<Bar> BarHoverOnEventHandler { get; set; }
+
+    [Parameter]
+    public EventCallback BarHoverOffEventHandler { get; set; }
+
+    private int _daysInMonth => DateTime.DaysInMonth(Reference.Year, Reference.Month);
+
+    private TimePeriodInternal _internalTimePeriod =>
+            TimePeriod == TimePeriod.Month ?
+            (TimePeriodInternal)_daysInMonth :
+            (TimePeriodInternal)((int)TimePeriod);
+
+    private DateTime _chartStart => ChartService.CalculateStartDate(Reference, TimePeriod);
+    private DateTime _chartEnd => ChartService.CalculateEndDate(_chartStart, TimePeriod);
+
+    protected override void OnInitialized()
+    {
+        switch (TimePeriod)
+        {
+            case TimePeriod.Hour:
+                break;
+
+            default:
+                Reference = Reference.Date;
+                break;
+        }
+    }
+}

@@ -1,0 +1,16 @@
+﻿@using GanttChart.Models;
+@using GanttChart.Models.Enums;
+
+<div class="gantt__row">
+    <div class="gantt__row-first">
+        @Row?.Title
+    </div>
+    
+</div>
+
+@code {
+
+    [Parameter]
+    public Row? Row { get; set; }
+
+}

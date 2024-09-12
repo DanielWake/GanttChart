@@ -1,0 +1,25 @@
+﻿
+<div class="gantt__row gantt__row--heading @_columnCss">
+    @if(DisplayRowHeading)
+    {
+        <div class="gantt__row-first"></div>
+    }
+    
+    @for (var i = 0; i < 24; i++)
+    {
+        <span>@i.ToString("00")</span>
+    }
+</div>
+
+
+@code {
+    [Parameter]
+    public DateTime Reference { get; set; }
+
+    [Parameter]
+    public bool DisplayRowHeading { get; set; } = true;
+
+    private string _columnCss => $"gantt__row--heading-24{_cssSuffix}";
+
+    private string _cssSuffix => DisplayRowHeading ? "" : "--no-title";
+}

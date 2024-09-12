@@ -1,0 +1,586 @@
+﻿
+
+
+
+.header {
+    color: #202125;
+    margin-bottom: 40px;
+
+    h2 {
+        font-weight: 600;
+    }
+
+    p {
+        font-weight: 300;
+    }
+}
+
+$red: #ff6252;
+
+.wrapper {
+    max-width: 1200px;
+    min-width: 700px;
+    margin: 0 auto;
+    padding: 40px;
+}
+
+::deep .wrapper-custom {
+    margin: 0 auto;
+    padding: 40px;
+}
+
+::deep .gantt {
+    /*display: grid;*/
+    border: 0;
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+    box-sizing: border-box;
+    box-shadow: 0 75px 125px -57px #7e8f94;
+
+
+    .box {
+        display: flex;
+
+        .left {
+            flex: 0 0 150px; /* do not grow, do not shrink, start at 250px */
+            border: 1px dashed #00f;
+        }
+
+        .right {
+            flex: 1; /* grow */
+            border: 1px dashed #f0f;
+        }
+    }
+
+    .stack {
+        position: relative;
+        margin-bottom: 16px;
+
+        .bottom {
+            //position: absolute;
+        }
+
+        .top {
+            position: absolute;
+            top: 0px;
+            max-width: 100%;
+
+            .heading-offset {
+                margin-left: 150px;
+                overflow-x: scroll;
+
+                .row-content {
+                    width: 3500px;
+                    position: relative;
+                }
+
+                .row-content-day {
+                    width: 3500px;
+                    position: relative;
+                }
+
+                .row-content-5dayweek {
+                    width: 2000px;
+                    position: relative;
+                }
+
+                .row-content-7dayweek {
+                    width: 2500px;
+                    position: relative;
+                }
+
+                .row-content-month {
+                    width: 4000px;
+                    position: relative;
+                }
+            }
+        }
+    }
+
+    &--no-title {
+        display: grid;
+        grid-template-columns: 1fr;
+        background-color: #fff;
+    }
+
+
+    &__row {
+        display: grid;
+        grid-template-columns: 150px 1fr;
+        background-color: #fff;
+
+        &--no-heading {
+            grid-template-columns: 1fr;
+        }
+
+        &:nth-child(odd) {
+            background-color: #f5f5f5;
+
+            .gantt__row-first {
+                background-color: #f5f5f5;
+            }
+        }
+
+        &:nth-child(3) {
+            .gantt__row-bars {
+                border-top: 0;
+            }
+
+            .gantt__row-first {
+                border-top: 0;
+            }
+        }
+
+        &--empty {
+            background-color: lighten($red, 25%) !important;
+            z-index: 1;
+
+            .gantt__row-first {
+                border-width: 1px 1px 0 0;
+            }
+        }
+
+        &--lines {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            background-color: transparent;
+            top: 0px;
+
+            .x-scroll {
+                margin-bottom: 16px;
+            }
+
+            &-1 {
+                grid-template-columns: 150px repeat(1, 1fr);
+
+                &--no-title {
+                    grid-template-columns: repeat(1, 1fr);
+                }
+            }
+
+            &-2 {
+                grid-template-columns: 150px repeat(2, 1fr);
+
+                &--no-title {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+            }
+
+            &-3 {
+                grid-template-columns: 150px repeat(3, 1fr);
+
+                &--no-title {
+                    grid-template-columns: repeat(3, 1fr);
+                }
+            }
+
+            &-4 {
+                grid-template-columns: 150px repeat(4, 1fr);
+
+                &--no-title {
+                    grid-template-columns: repeat(4, 1fr);
+                }
+            }
+
+            &-5 {
+                grid-template-columns: 150px repeat(5, 1fr);
+
+                &--no-title {
+                    grid-template-columns: repeat(5, 1fr);
+                }
+            }
+
+            &-6 {
+                grid-template-columns: 150px repeat(6, 1fr);
+
+                &--no-title {
+                    grid-template-columns: repeat(6, 1fr);
+                }
+            }
+
+            &-7 {
+                grid-template-columns: 150px repeat(7, 1fr);
+
+                &--no-title {
+                    grid-template-columns: repeat(7, 1fr);
+                }
+            }
+
+            &-8 {
+                grid-template-columns: 150px repeat(8, 1fr);
+
+                &--no-title {
+                    grid-template-columns: repeat(8, 1fr);
+                }
+            }
+
+            &-12 {
+                grid-template-columns: 150px repeat(12, 1fr);
+
+                &--no-title {
+                    grid-template-columns: repeat(12, 1fr);
+                }
+            }
+
+            &-14 {
+                grid-template-columns: 150px repeat(14, 1fr);
+
+                &--no-title {
+                    grid-template-columns: repeat(14, 1fr);
+                }
+            }
+
+            &-24 {
+                grid-template-columns: 150px repeat(24, 1fr);
+
+                &--no-title {
+                    grid-template-columns: repeat(24, 1fr);
+                }
+            }
+
+            &-28 {
+                grid-template-columns: 150px repeat(28, 1fr);
+
+                &--no-title {
+                    grid-template-columns: repeat(28, 1fr);
+                }
+            }
+
+            &-29 {
+                grid-template-columns: 150px repeat(29, 1fr);
+
+                &--no-title {
+                    grid-template-columns: repeat(29, 1fr);
+                }
+            }
+
+            &-30 {
+                grid-template-columns: 150px repeat(30, 1fr);
+
+                &--no-title {
+                    grid-template-columns: repeat(30, 1fr);
+                }
+            }
+
+            &-31 {
+                grid-template-columns: 150px repeat(31, 1fr);
+
+                &--no-title {
+                    grid-template-columns: repeat(31, 1fr);
+                }
+            }
+
+            &--one-day-view-minutes {
+                grid-template-columns: 150px repeat(1440, 1fr);
+            }
+
+            &--one-day-view-minutes--no-heading {
+                grid-template-columns: repeat(1440, 1fr);
+            }
+
+            span {
+                display: block;
+                border-right: 1px solid rgba(0, 0, 0, 0.1);
+
+                &.marker {
+                    background-color: rgba(10, 52, 68, 0.13);
+                    z-index: 0;
+                }
+            }
+
+            &:after {
+                grid-row: 1;
+                grid-column: 0;
+                background-color: #1688b345;
+                z-index: 2;
+                height: 100%;
+            }
+        }
+
+        &--heading {
+            color: #fff;
+            background-color: #0a3444 !important;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+            &-1 {
+                grid-template-columns: 150px repeat(1, 1fr);
+
+                &--no-title {
+                    grid-template-columns: repeat(1, 1fr);
+                }
+            }
+
+            &-2 {
+                grid-template-columns: 150px repeat(2, 1fr);
+
+                &--no-title {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+            }
+
+            &-3 {
+                grid-template-columns: 150px repeat(3, 1fr);
+
+                &--no-title {
+                    grid-template-columns: repeat(3, 1fr);
+                }
+            }
+
+            &-4 {
+                grid-template-columns: 150px repeat(4, 1fr);
+
+                &--no-title {
+                    grid-template-columns: repeat(4, 1fr);
+                }
+            }
+
+            &-5 {
+                grid-template-columns: 150px repeat(5, 1fr);
+
+                &--no-title {
+                    grid-template-columns: repeat(5, 1fr);
+                }
+            }
+
+            &-6 {
+                grid-template-columns: 150px repeat(6, 1fr);
+
+                &--no-title {
+                    grid-template-columns: repeat(6, 1fr);
+                }
+            }
+
+            &-7 {
+                grid-template-columns: 150px repeat(7, 1fr);
+
+                &--no-title {
+                    grid-template-columns: repeat(7, 1fr);
+                }
+            }
+
+            &-8 {
+                grid-template-columns: 150px repeat(8, 1fr);
+
+                &--no-title {
+                    grid-template-columns: repeat(8, 1fr);
+                }
+            }
+
+            &-12 {
+                grid-template-columns: 150px repeat(12, 1fr);
+
+                &--no-title {
+                    grid-template-columns: repeat(12, 1fr);
+                }
+            }
+
+            &-14 {
+                grid-template-columns: 150px repeat(14, 1fr);
+
+                &--no-title {
+                    grid-template-columns: repeat(14, 1fr);
+                }
+            }
+
+            &-24 {
+                grid-template-columns: 150px repeat(24, 1fr);
+
+                &--no-title {
+                    grid-template-columns: repeat(24, 1fr);
+                }
+            }
+
+            &-28 {
+                grid-template-columns: 150px repeat(28, 1fr);
+
+                &--no-title {
+                    grid-template-columns: repeat(28, 1fr);
+                }
+            }
+
+            &-29 {
+                grid-template-columns: 150px repeat(29, 1fr);
+
+                &--no-title {
+                    grid-template-columns: repeat(29, 1fr);
+                }
+            }
+
+            &-30 {
+                grid-template-columns: 150px repeat(30, 1fr);
+
+                &--no-title {
+                    grid-template-columns: repeat(30, 1fr);
+                }
+            }
+
+            &-31 {
+                grid-template-columns: 150px repeat(31, 1fr);
+
+                &--no-title {
+                    grid-template-columns: repeat(31, 1fr);
+                }
+            }
+
+            .gantt__row-first {
+                border-top: 0 !important;
+                background-color: #0a3444 !important;
+            }
+
+            span {
+                text-align: center;
+                font-size: 13px;
+                align-self: center;
+                font-weight: bold;
+                padding: 20px 0;
+            }
+        }
+
+        &--months {
+            color: #fff;
+            background-color: #0a3444 !important;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            grid-template-columns: 150px repeat(12, 1fr);
+
+            .gantt__row-first {
+                border-top: 0 !important;
+                background-color: #0a3444 !important;
+            }
+
+            span {
+                text-align: center;
+                font-size: 13px;
+                align-self: center;
+                font-weight: bold;
+                padding: 20px 0;
+            }
+        }
+
+        &-first {
+            background-color: #fff;
+            border-width: 1px 0 0 0;
+            border-color: rgba(0, 0, 0, 0.1);
+            border-style: solid;
+            padding: 7px 0;
+            font-size: 13px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        &-bars {
+            list-style: none;
+            display: grid;
+            padding: 9px 0;
+            margin: 0;
+            grid-gap: 8px 0;
+            border-top: 1px solid rgba(221, 221, 221, 0.8);
+
+            &-day-in-minutes {
+                grid-template-columns: repeat(1440, 1fr);
+            }
+
+            &-day-in-minutes5 {
+                grid-template-columns: repeat(288, 1fr);
+            }
+
+            &-day-in-minutes10 {
+                grid-template-columns: repeat(144, 1fr);
+            }
+
+            &-day-in-minutes15 {
+                grid-template-columns: repeat(95, 1fr);
+            }
+
+            &-day-in-minutes30 {
+                grid-template-columns: repeat(48, 1fr);
+            }
+
+            &-five-day-week-in-minutes {
+                grid-template-columns: repeat(7200, 1fr);
+            }
+
+            &-seven-day-week-in-minutes {
+                grid-template-columns: repeat(10080, 1fr);
+            }
+
+            &-twenty-eight-day-month-in-minutes {
+                grid-template-columns: repeat(40320, 1fr);
+            }
+
+            &-twenty-nine-day-month-in-minutes {
+                grid-template-columns: repeat(41760, 1fr);
+            }
+
+            &-thirty-day-month-in-minutes {
+                grid-template-columns: repeat(43200, 1fr);
+            }
+
+            &-thirty-one-day-month-in-minutes {
+                grid-template-columns: repeat(44640, 1fr);
+            }
+
+            li {
+                font-weight: 500;
+                text-align: left;
+                font-size: 14px;
+                min-height: 15px;
+                background-color: #55de84;
+                padding: 5px 12px;
+                color: #fff;
+                overflow: hidden;
+                position: relative;
+                text-wrap: nowrap;
+                cursor: pointer;
+                border-radius: 20px;
+
+                &.from-before {
+                    border-radius: 0px 20px 20px 0px;
+                }
+
+                &.until-after {
+                    border-radius: 20px 0px 0px 20px;
+                }
+
+                &.from-before.until-after {
+                    border-radius: 0px;
+                }
+
+                &.backward-stripes {
+                    background-image: repeating-linear-gradient(45deg, transparent, transparent 5px, rgba(255,255,255,.1) 5px, rgba(255,255,255,.1) 12px);
+                }
+
+                &.forward-stripes {
+                    background-image: repeating-linear-gradient(-45deg, transparent, transparent 5px, rgba(255,255,255,.1) 5px, rgba(255,255,255,.1) 12px);
+                }
+
+                &.vertical-stripes {
+                    background-image: repeating-linear-gradient(90deg, transparent, transparent 5px, rgba(255,255,255,.1) 5px, rgba(255,255,255,.1) 12px);
+                }
+
+                &.horizontal-stripes {
+                    background-image: repeating-linear-gradient(0deg, transparent, transparent 5px, rgba(255,255,255,.1) 5px, rgba(255,255,255,.1) 12px);
+                }
+
+                &:before,
+                &:after {
+                    content: "";
+                    height: 100%;
+                    top: 0;
+                    z-index: 4;
+                    position: absolute;
+                    background-color: rgba(0, 0, 0, 0.3);
+                }
+
+                &:before {
+                    left: 0;
+                }
+
+                &:after {
+                    right: 0;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,28 @@
+﻿
+<div class="gantt__row gantt__row--heading @_columnCss">
+    @if(DisplayRowHeading)
+    {
+        <div class="gantt__row-first"></div>
+    }
+
+    @for (var i = 1; i <= _daysInMonth; i++)
+    {
+        <span>@i.ToString("00")</span>
+    }
+</div>
+
+
+@code {
+    [Parameter]
+    public DateTime Reference { get; set; }
+
+    [Parameter]
+    public bool DisplayRowHeading { get; set; } = true;
+
+    private string _columnCss => $"gantt__row--heading-{_daysInMonth}{_cssSuffix}";
+
+    private int _daysInMonth => DateTime.DaysInMonth(Reference.Year, Reference.Month);
+
+    private string _cssSuffix => DisplayRowHeading ? "" : "--no-title";
+
+}

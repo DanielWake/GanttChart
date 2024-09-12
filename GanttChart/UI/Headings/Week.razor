@@ -1,0 +1,40 @@
+﻿<div class="gantt__row gantt__row--heading gantt__row--heading-1">
+    <div class="gantt__row-first"></div>
+    <span>w/c @Reference.ToString("d MMM yyyy")</span>
+</div>
+
+<div class="gantt__row gantt__row--heading gantt__row--heading-2" style="display:none">
+</div>
+
+<div class="gantt__row gantt__row--heading gantt__row--heading-7">
+    <div class="gantt__row-first"></div>
+
+    @for (var i = 0; i < 7; i++)
+    {
+        <span>@_headingBuilder.ToString(_dateFormat)</span>
+        _headingBuilder = _headingBuilder.AddDays(1);
+    }
+</div>
+
+
+@code {
+    [Parameter]
+    public DateTime Reference { get; set; }
+
+    [Parameter]
+    public bool UseShorthandDays { get; set; } = false;
+
+    private DateTime _weekCommencing;
+
+    private DateTime _headingBuilder;
+
+    private string _dateFormat => UseShorthandDays ? "ddd" : "dddd";
+
+    protected override void OnInitialized()
+    {
+        int weekday = (int)Reference.DayOfWeek;
+
+        _weekCommencing = Reference.AddDays(weekday - 1);
+        _headingBuilder = _weekCommencing;
+    }
+}

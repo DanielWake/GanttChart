@@ -1,0 +1,29 @@
+﻿<div class="gantt__row gantt__row--lines @(_columnCss)" data-month="5">
+
+    @for(var i = 0; i < ColumnCount; i++)
+    {
+        @if(i != 0 && i == HighlightedColumn)
+        {
+            <span class="marker"></span>
+        }
+        else
+        {
+            <span></span>
+        }
+    }
+</div>
+
+@code {
+    [Parameter]
+    public int ColumnCount { get; set; } = 0;
+
+    [Parameter]
+    public int HighlightedColumn { get; set; } = 0;
+
+    [Parameter]
+    public bool DisplayRowHeading { get; set; } = true;
+
+    private string _columnCss => $"gantt__row--lines-{ColumnCount}{_cssSuffix}";
+
+    private string _cssSuffix => DisplayRowHeading ? "" : "--no-title";
+}

@@ -1,0 +1,113 @@
+﻿@page "/gantt/static/day"
+
+@using GanttChart.Models
+<h3>Day</h3>
+
+<BlazorComponentLibrary.Components.Charts.Gantt
+    Settings="_settings"
+    Rows="_rows"    
+    TimePeriod="_timePeriod"
+    Reference="DateTime.Now"
+/>
+
+@code {
+    private IEnumerable<GanttChart.Models.Row> _rows { get; set; }
+    private Settings _settings { get; set; }
+    public GanttChart.Models.Enums.TimePeriod _timePeriod { get; set; }
+
+    protected override void OnInitialized()
+    {
+        _rows = new List<GanttChart.Models.Row>()
+        {
+            new GanttChart.Models.Row()
+            {
+                Title = "Alpha",
+                Bars = new List<Bar>()
+                {
+                    new Bar()
+                    {
+                        Title = "From Yesterday",
+                        From = DateTime.Today.AddHours(-1),
+                        To = DateTime.Today.AddHours(8),
+                        Style = GanttChart.Models.Enums.BarStyle.ForwardStripes,
+                        Colour = "red"
+                    },
+
+                    new Bar()
+                    {
+                        Title = "Today",
+                        From = DateTime.Today.AddHours(10),
+                        To = DateTime.Today.AddHours(14),
+                        Style = GanttChart.Models.Enums.BarStyle.VerticalStripes,
+                        Colour = "orange"
+                    },
+
+                    new Bar()
+                    {
+                        Title = "To Tomorrow",
+                        From = DateTime.Today.AddHours(16),
+                        To = DateTime.Today.AddHours(25),
+                        Style = GanttChart.Models.Enums.BarStyle.BackwardStripes,
+                        Colour = "yellow"
+                    },
+                }
+            },
+            new GanttChart.Models.Row()
+            {
+                Title = "Bravo",
+                Bars = new List<Bar>()
+                {
+                    new Bar()
+                    {
+                        Title = "From Yesterday To Tomorrow",
+                        From = DateTime.Today.AddHours(-1),
+                        To = DateTime.Today.AddHours(25),
+                        Style = GanttChart.Models.Enums.BarStyle.HorizontalStripes,
+                        Colour = "green"
+                    }
+                }
+            },
+            new GanttChart.Models.Row()
+            {
+                Title = "Alpha",
+                Bars = new List<Bar>()
+                {
+                    new Bar()
+                    {
+                        Title = "One",
+                        From = DateTime.Today.AddHours(1),
+                        To = DateTime.Today.AddHours(4),
+                        Style = GanttChart.Models.Enums.BarStyle.None,
+                        Colour = "blue"
+                    },
+
+                    new Bar()
+                    {
+                        Title = "Two",
+                        From = DateTime.Today.AddHours(5),
+                        To = DateTime.Today.AddHours(9),
+                        Style = GanttChart.Models.Enums.BarStyle.None,
+                        Colour = "indigo"
+                    },
+
+                    new Bar()
+                    {
+                        Title = "Three",
+                        From = DateTime.Today.AddHours(10),
+                        To = DateTime.Today.AddHours(14),
+                        Style = GanttChart.Models.Enums.BarStyle.None,
+                        Colour = "violet"
+                    },
+                }
+            },
+        };
+
+        _settings = new Settings()
+            {
+                ChartIsScrollable = false,
+                HideBarTitles = false
+            };
+
+        _timePeriod = GanttChart.Models.Enums.TimePeriod.Day;
+    }
+}

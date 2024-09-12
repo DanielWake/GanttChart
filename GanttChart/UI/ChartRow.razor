@@ -1,0 +1,112 @@
+﻿@using GanttChart.Models;
+@using GanttChart.Models.Enums;
+@using GanttChart.Services;
+
+<div class="gantt__row @_displayHeadingCss @(IsEmpty ? "gantt__row--empty" : "")">
+    @if (DisplayHeading)
+    {
+        <div class="gantt__row-first">
+            <span>@Row.Title</span>
+        </div>
+    }
+
+    
+    <ul class="gantt__row-bars @_columnCss">
+        @if (IsEmpty)
+        {
+            <li class=""
+                style=" grid-column: 1/1;
+                            background-color: rgba(0,0,0,0);">
+                @if (!Settings.HideBarTitles)
+                {
+                    <text>&nbsp</text>
+                }
+            </li>
+        }
+        else
+        {
+            @foreach (var bar in _validBars)
+            {
+                var startColumn = bar.GetStartColumn(ChartStart, TimeInterval.Minute);
+                var endColumn = bar.GetEndColumn(ChartStart, TimeInterval.Minute, TimePeriod);
+                var barStyles = "";
+
+                @if(startColumn == 0)
+                {
+                    barStyles += "from-before ";
+                    startColumn = 1;
+                }
+
+                @if(endColumn == -1)
+                {
+                    barStyles += "until-after ";
+                }
+
+                <li @onclick="() => BarClickEventHandler.InvokeAsync(bar)"
+                    @onmouseover="() => BarHoverOnEventHandler.InvokeAsync(bar)"
+                    @onmouseleave="() => BarHoverOffEventHandler.InvokeAsync()"
+                    class="@BarService.GetBarStyleCss(@bar.Style) @barStyles"
+                    style=" grid-column: @(startColumn)/@(endColumn);
+                            background-color: @bar.Colour;">
+                    @if (!Settings.HideBarTitles)
+                    {
+
+                        @if (string.IsNullOrWhiteSpace(bar.Title))
+                        {
+                            <text>&nbsp</text>
+                        }
+                        else
+                        {
+                            @bar.Title
+                        }
+                    }
+                </li>
+            }
+        }
+    </ul>
+</div>
+
+@code {
+    [Parameter]
+    public bool DisplayHeading { get; set; } = true;
+
+    [Parameter]
+    public DateTime ChartStart { get; set; }
+
+    [Parameter]
+    public DateTime ChartEnd { get; set; }
+
+    [Parameter]
+    public Row Row { get; set; }
+
+    [Parameter]
+    public Settings Settings { get; set; } = new();
+
+    [Parameter]
+    public TimePeriodInternal TimePeriod { get; set; }
+
+    [Parameter]
+    public TimeInterval TimeInterval { get; set; }
+
+    [Parameter]
+    public EventCallback<Bar> BarClickEventHandler { get; set; }
+
+    [Parameter]
+    public EventCallback<Bar> BarHoverOnEventHandler { get; set; }
+
+    [Parameter]
+    public EventCallback BarHoverOffEventHandler { get; set; }
+
+    private IEnumerable<Bar> _validBars => Row.Bars.ThatOccurredInTimePeriod(ChartStart, ChartEnd).ToList();
+
+    private bool IsEmpty => !_validBars.Any();
+
+    private string _columnCss => $"gantt__row-bars-{@_columnStructure}";
+
+    private string _columnStructure => BarService.ColumnStructure[TimePeriod][TimeInterval] ?? "";
+
+    private string _displayHeadingSuffix => DisplayHeading ? "" : "--no-heading";
+
+    private string _displayHeadingCss => DisplayHeading ? "" : $"gantt__row{_displayHeadingSuffix}";
+
+}

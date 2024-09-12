@@ -1,0 +1,28 @@
+﻿@using GanttChart.Models;
+@using GanttChart.Models.Enums;
+
+@switch (TimePeriod)
+{
+    case TimePeriod.Day:
+        <GanttChart.UI.Headings.Main Heading=@(ChartStart.ToString("dddd, d MMM yyyy")) />
+        break;
+
+    case TimePeriod.FiveDayWeek:
+    case TimePeriod.SevenDayWeek:
+        <GanttChart.UI.Headings.Main Heading=@($"w/c {ChartStart.ToString("d MMM yyyy")}") />
+        break;
+
+    case TimePeriod.Month:
+    default:
+        <GanttChart.UI.Headings.Main Heading=@(ChartStart.ToString("MMM yyyy")) />
+        break;
+}
+
+@code {
+    [Parameter]
+    public DateTime ChartStart { get; set; }
+
+    [Parameter]
+    public TimePeriod TimePeriod { get; set; }
+
+}

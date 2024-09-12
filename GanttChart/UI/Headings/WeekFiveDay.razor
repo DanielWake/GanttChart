@@ -1,0 +1,43 @@
+﻿
+<div class="gantt__row gantt__row--heading @_columnCss">
+    @if(DisplayRowHeading)
+    {
+        <div class="gantt__row-first"></div>
+    }
+
+    @for (var i = 0; i < 5; i++)
+    {
+        <span>@_headingBuilder.ToString(_dateFormat)</span>
+        _headingBuilder = _headingBuilder.AddDays(1);
+    }
+</div>
+
+
+@code {
+    [Parameter]
+    public DateTime Reference { get; set; }
+
+    [Parameter]
+    public bool UseShorthandDays { get; set; } = false;
+
+    [Parameter]
+    public bool DisplayRowHeading { get; set; } = true;
+
+    private string _columnCss => $"gantt__row--heading-5{_cssSuffix}";
+
+    private string _cssSuffix => DisplayRowHeading ? "" : "--no-title";
+
+    private DateTime _weekCommencing;
+
+    private DateTime _headingBuilder;
+
+    private string _dateFormat => UseShorthandDays ? "ddd" : "dddd";
+
+    protected override void OnInitialized()
+    {
+        int weekday = (int)Reference.DayOfWeek;
+
+        _weekCommencing = Reference.AddDays(weekday - 1);
+        _headingBuilder = _weekCommencing;
+    }
+}

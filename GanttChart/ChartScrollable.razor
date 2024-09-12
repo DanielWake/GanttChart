@@ -1,0 +1,159 @@
+﻿@using GanttChart.Models.Enums;
+@using GanttChart.Models;
+@using GanttChart.Services;
+@using GanttChart.UI;
+
+
+<div class="stack">
+    <div class="bottom">
+
+        @switch (TimePeriod)
+        {
+            case TimePeriod.Day:
+                <GanttChart.UI.Headings.Day Reference=Reference />
+                break;
+
+            case TimePeriod.FiveDayWeek:
+                <GanttChart.UI.Headings.WeekFiveDay Reference=ChartStart />
+                break;
+
+            case TimePeriod.SevenDayWeek:
+                <GanttChart.UI.Headings.WeekSevenDay Reference=ChartStart />
+                break;
+
+            case TimePeriod.Month:
+                <GanttChart.UI.Headings.Month Reference=ChartStart />
+                break;
+
+            default:
+                <GanttChart.UI.Headings.Day Reference=Reference />
+                break;
+        }
+        @foreach (var row in Rows)
+        {
+            <ChartRow 
+                ChartStart=ChartStart 
+                ChartEnd=ChartEnd 
+                TimePeriod="InternalTimePeriod" 
+                TimeInterval="TimeInterval" 
+                Row="row" 
+                Settings="Settings"/>
+        }
+
+    </div>
+
+    <div class="top">
+        <div class="heading-offset">
+            <div class="@GetCssClassForScrollableWidth(TimePeriod)">
+                @switch (TimePeriod)
+                {
+                    case TimePeriod.Day:
+                        <GanttChart.UI.Headings.Day DisplayRowHeading=false Reference=Reference />
+                        <ChartLines DisplayRowHeading=false ColumnCount="24" HighlightedColumn="DateTime.Now.Date == Reference.Date ? DateTime.Now.Hour : 0" />
+                        break;
+
+                    case TimePeriod.FiveDayWeek:
+                        <GanttChart.UI.Headings.WeekFiveDay DisplayRowHeading=false Reference=ChartStart />
+                        <ChartLines DisplayRowHeading=false ColumnCount="5" HighlightedColumn="DateTime.Now.Date == Reference.Date ? (int)DateTime.Now.DayOfWeek - 1 : 0" />
+                        break;
+
+                    case TimePeriod.SevenDayWeek:
+                        <GanttChart.UI.Headings.WeekSevenDay DisplayRowHeading=false Reference=ChartStart />
+                        <ChartLines DisplayRowHeading=false ColumnCount="7" HighlightedColumn="DateTime.Now.Date == Reference.Date ? (int)DateTime.Now.DayOfWeek - 1 : 0" />
+                        break;
+
+                    case TimePeriod.Month:
+                        <GanttChart.UI.Headings.Month DisplayRowHeading=false Reference=ChartStart />
+                        <ChartLines DisplayRowHeading=false ColumnCount="_daysInMonth" HighlightedColumn="DateTime.Now.Date == Reference.Date ? DateTime.Now.Day - 1 : 0" />
+                        break;
+
+                    default:
+                        <GanttChart.UI.Headings.Day DisplayRowHeading=false Reference=Reference />
+                        <ChartLines DisplayRowHeading=false ColumnCount="24" HighlightedColumn="DateTime.Now.Date == Reference.Date ? DateTime.Now.Hour : 0" />
+                        break;
+                }
+
+                @foreach (var row in Rows)
+                {
+                    <ChartRow 
+                        DisplayHeading=false 
+                        ChartStart=ChartStart 
+                        ChartEnd=ChartEnd 
+                        TimePeriod="InternalTimePeriod" 
+                        TimeInterval="TimeInterval" 
+                        Row="row" 
+                        Settings=Settings 
+                        BarClickEventHandler="BarClickEventHandler"
+                        BarHoverOnEventHandler="BarHoverOnEventHandler"
+                        BarHoverOffEventHandler="BarHoverOffEventHandler"/>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@code
+{
+    @code
+    {
+        [Parameter]
+        public TimePeriod TimePeriod { get; set; } = TimePeriod.SevenDayWeek;
+
+        [Parameter]
+        public TimePeriodInternal InternalTimePeriod { get; set; } = TimePeriodInternal.SevenDayWeek;
+
+        [Parameter]
+        public TimeInterval TimeInterval { get; set; } = TimeInterval.Minute;
+
+        [Parameter]
+        public DateTime ChartStart { get; set; }
+
+        [Parameter]
+        public DateTime ChartEnd { get; set; }
+
+        [Parameter]
+        public DateTime Reference { get; set; } = DateTime.Today;
+
+        [Parameter]
+        public IEnumerable<Row> Rows { get; set; } = new List<Row>();
+
+        [Parameter]
+        public Settings Settings { get; set; } = new();
+
+        [Parameter]
+        public EventCallback<Bar> BarClickEventHandler { get; set; }
+
+        [Parameter]
+        public EventCallback<Bar> BarHoverOnEventHandler { get; set; }
+
+        [Parameter]
+        public EventCallback BarHoverOffEventHandler { get; set; }
+
+        private int _daysInMonth => DateTime.DaysInMonth(Reference.Year, Reference.Month);
+
+        private string GetCssClassForScrollableWidth(TimePeriod period)
+        {
+            switch (period)
+            {
+                case TimePeriod.Day:
+                    return "row-content-day";
+
+                case TimePeriod.FiveDayWeek:
+                    return "row-content-5dayweek";
+
+                case TimePeriod.SevenDayWeek:
+                    return "row-content-7dayweek";
+
+                case TimePeriod.Month:
+                    return "row-content-month";
+
+                default:
+                    return "row-content";
+            }
+        }
+
+    }
+
+
+}
